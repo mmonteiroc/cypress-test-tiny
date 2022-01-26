@@ -22,4 +22,16 @@
 //
 //
 // -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+Cypress.Commands.add('inputOnTextFields', (inputs, pressEnterAfterTyping = false) => {
+  inputs.forEach(field => {
+    const chain = cy.get(field.selector).scrollIntoView().clear().type(field.value);
+
+    if (pressEnterAfterTyping) {
+      chain.wait(500).type('{enter}');
+    }
+  });
+});
+
+Cypress.Commands.add('config', () => {
+  return Cypress.env('appConfig');
+});
